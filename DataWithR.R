@@ -6,3 +6,8 @@ p_load(dlookr,
        Hmisc, # Data analysis 
        palmerpenguins, # Alternative to the Iris dataset
        tidyverse) # Data wrangling, manipulation, visualization
+
+#load the data
+data(algae, package = "DMwR2")
+
+algae |> glimpse()
