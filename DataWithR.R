@@ -11,3 +11,16 @@ p_load(dlookr,
 data(algae, package = "DMwR2")
 
 algae |> glimpse()
+
+#Central Tendency: Mean, Median and Mode
+algae$a1 |>
+  mean()
+algae$a1 |>
+  median()
+Mode <- function(x, na.rm=FALSE){
+  if(na.rm) x<-x[!is.na(x)]
+  ux <- unique (x)
+  return (ux[which.max(tabulate(match(x, ux)))])
+}
+
+algae$a2 |> Mode()
