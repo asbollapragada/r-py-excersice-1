@@ -40,3 +40,12 @@ algae$a1 |> min() # minimum value
 algae$a1 |> IQR() # Interquartile Range
 algae$a1 |> quantile() # Quantile
 algae$a1 |> quantile(probs = c(0.2, 0.8)) # Specifying specific quantile
+
+# Missing values
+library(purrr)
+# Compute the total number of NA values in the dataset
+nas <- algae %>% 
+  purrr::map_dbl(~sum(is.na(.))) %>% 
+  sum()
+
+cat("The dataset contains ", nas, "NA values. \n")
