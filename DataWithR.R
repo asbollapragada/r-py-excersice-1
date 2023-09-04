@@ -67,3 +67,23 @@ penguins |> Hmisc::describe()
 
 # dlookr’s describe()
 penguins |> dlookr::describe()
+
+# Summaries on a subset of data
+algae |>
+  summarise(avgNO3 = mean(NO3, na.rm=TRUE),
+            medA1 = median(a1))
+algae |>
+  select(mxPH:Cl) |>
+  summarise_all(list(mean, median), na.rm = TRUE)
+algae |>
+  select(a1:a7) |>
+  summarise_all(funs(var))
+algae |>
+  select(a1:a7) |>
+  summarise_all(c("min", "max"))
+algae |>
+  group_by(season, size) |>
+  summarise(nObs = n(), mA7 = median(a7))
+penguins |> 
+  group_by(species) |>
+  summarise(var = var(bill_length_mm, na.rm = TRUE))
