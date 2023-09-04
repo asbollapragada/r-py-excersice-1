@@ -30,3 +30,13 @@ algae$a2 |> Mode()
 algae$a1 |> centralValue()
 # Nominal variable
 algae$speed |> centralValue()
+
+# Statistics of spread (variation)
+algae$a1 |> var() # variance
+algae$a1 |> sd() # standard deviation
+algae$a1 |> range() # range
+algae$a1 |> max() # maximum value
+algae$a1 |> min() # minimum value
+algae$a1 |> IQR() # Interquartile Range
+algae$a1 |> quantile() # Quantile
+algae$a1 |> quantile(probs = c(0.2, 0.8)) # Specifying specific quantile
