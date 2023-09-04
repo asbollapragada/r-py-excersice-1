@@ -49,3 +49,10 @@ nas <- algae %>%
   sum()
 
 cat("The dataset contains ", nas, "NA values. \n")
+
+# Compute the number of incomplete rows in the dataset
+incomplete_rows <- algae %>% 
+  summarise_all(~!complete.cases(.)) %>%
+  nrow()
+cat("The dataset contains ", incomplete_rows, "(out of ", nrow(algae),") incomplete rows. \n")
+
