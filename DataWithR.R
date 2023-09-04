@@ -87,3 +87,11 @@ algae |>
 penguins |> 
   group_by(species) |>
   summarise(var = var(bill_length_mm, na.rm = TRUE))
+
+# Aggregating data
+penguins |>
+  group_by(species) |>
+  reframe(var = quantile(bill_length_mm, na.rm = TRUE))
+penguins |>
+  group_by(species) |>
+  dlookr::describe(bill_length_mm)
