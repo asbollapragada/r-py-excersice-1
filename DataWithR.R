@@ -56,3 +56,14 @@ incomplete_rows <- algae %>%
   nrow()
 cat("The dataset contains ", incomplete_rows, "(out of ", nrow(algae),") incomplete rows. \n")
 
+# Summary of the dataset
+
+# base r's summary()
+algae |> summary() 
+
+# Hmisc’s describe()
+data("penguins")
+penguins |> Hmisc::describe()
+
+# dlookr’s describe()
+penguins |> dlookr::describe()
