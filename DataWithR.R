@@ -24,3 +24,9 @@ Mode <- function(x, na.rm=FALSE){
 }
 
 algae$a2 |> Mode()
+
+# DMwR centralValue() function
+# Numerical variable
+algae$a1 |> centralValue()
+# Nominal variable
+algae$speed |> centralValue()
