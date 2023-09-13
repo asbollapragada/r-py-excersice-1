@@ -1,0 +1,171 @@
+---
+editor: 
+  markdown: 
+    wrap: 72
+---
+# Getting to know your Data with R
+
+### Installing required packages
+
+```{r}
+library(pacman)
+```
+
+### Loading data
+
+```{r}
+p_load(dlookr,
+       DMwR2, # Data Mining with R functions
+       GGally, # Pair-wise plots using ggplot2
+       Hmisc, # Data analysis 
+       palmerpenguins, # Alternative to the Iris dataset
+       tidyverse) # Data wrangling, manipulation, visualization
+```
+
+```{r}
+algae |> glimpse()
+```
+
+## Central Tendency
+
+#### Mean
+```{r}
+algae$a1 |>  mean()
+```
+#### Median
+```{r}
+algae$a1 |> median()
+```
+#### Mode
+```{r}
+Mode <- function(x, na.rm=FALSE){
+  if(na.rm) x<-x[!is.na(x)]
+  ux <- unique (x)
+  return (ux[which.max(tabulate(match(x, ux)))])
+}
+
+algae$a2 |> Mode()
+```
+
+## DMwR centralValue() function
+
+#### Numerical variable
+```{r}
+algae$a1 |> centralValue()
+```
+
+#### Nominal variable
+```{r}
+algae$speed |> centralValue()
+```
+
+
+## Statistics of spread (variation)
+
+#### Variance
+```{r}
+algae$a1 |> var()
+```
+#### Standard Deviation
+```{r}
+algae$a1 |> sd()
+```
+#### Range
+```{r}
+algae$a1 |> range()
+```
+#### Minimum Value
+```{r}
+algae$a1 |> min()
+```
+#### Maximum Value
+```{r}
+algae$a1 |> max()
+```
+#### Interquartile Range
+```{r}
+algae$a1 |> IQR()
+```
+#### Quantile
+```{r}
+algae$a1 |> quantile()
+```
+#### Specifying specific quantile
+```{r}
+algae$a1 |> quantile(probs = c(0.2, 0.8))
+```
+## Missing values
+
+```{r}
+library(purrr)
+```
+
+### Compute the total number of NA values in the dataset
+
+```{r}
+nas <- algae %>% purrr::map_dbl(~sum(is.na(.))) %>% sum()
+cat("The dataset contains", nas, "NA values. \n")
+```
+### Compute the number of incomplete rows in the dataset
+
+```{r}
+incomplete_rows <- algae %>%
+  summarise_all(~!complete.cases(.)) %>%
+  nrow() 
+cat("The dataset contains", incomplete_rows, "(out of", nrow(algae),") incomplete rows. \n")
+```
+
+## Summary of the dataset
+
+#### base r's summary()
+```{r}
+algae |> summary()
+```
+
+#### Hmisc's describe()
+```{r}
+data("penguins")
+penguins |>
+  Hmisc::describe()
+```
+
+### dlookr's describe()
+```{r}
+penguins |>
+  dlookr::describe()
+```
+
+## Summaries on a subset of data
+
+```{r}
+algae |>
+  summarise(avgNO3 = mean(NO3, na.rm=TRUE),
+            medA1 = median(a1))
+algae |>
+  select(mxPH:Cl) |>
+  summarise_all(list(mean, median), na.rm = TRUE)
+algae |>
+  select(a1:a7) |>
+  summarise_all(funs(var))
+algae |>
+  select(a1:a7) |>
+  summarise_all(c("min", "max"))
+algae |>
+  group_by(season, size) |>
+  summarise(nObs = n(), mA7 = median(a7))
+penguins |> 
+  group_by(species) |>
+  summarise(var = var(bill_length_mm, na.rm = TRUE))
+```
+
+## Aggregating data
+
+```{r}
+penguins |>
+  group_by(species) |>
+  reframe(var = quantile(bill_length_mm, na.rm = TRUE))
+penguins |>
+  group_by(species) |>
+  dlookr::describe(bill_length_mm)
+```
+
