@@ -5,6 +5,9 @@ editor:
 ---
 # Getting to know your Data with R
 
+## Author: Anjani Sowmya Bollapragada
+## Student ID: 23851219
+
 ### Installing required packages
 
 ```{r}
